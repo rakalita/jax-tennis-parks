@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Jax Tennis Parks</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+<link href="tennispark.css" rel="stylesheet">
+<script src="tennispark.js"></script>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="heading">
+      <h1>Jax Tennis Parks</h1>
+    </div>
+    <div id="listings" class="listings"></div>
+  </div>
+  <div id="map" class="map"></div>
+<script>
+
+    /**
+     * Add the map to the page
+     */
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/raka/cl92xyf8p001z15s1dd1wa34c', // style URL
+    center: [-81.7, 30.3], // starting position [lng, lat]
+    zoom: 9.5, // starting zoom
+    projection: 'globe' // display the map as a 3D globe
+});
+map.on('style.load', () => {   
+   // map.setFog({}); // Set the default atmosphere style
+    buildLocationList(tennis_parks);
+    addMarkers(tennis_parks); 
+});
+</script>
+ 
+</body>
+</html>

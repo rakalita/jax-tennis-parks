@@ -1,0 +1,65 @@
+ {
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "San Jose Country Club",
+        "description": "Private Country Club",
+        "courts":12,
+        "surface":"clay",
+        "address":"7529 San Jose Blvd, Jacksonville, FL32217",
+        "phone":"904-733-1414"
+      },
+      "geometry": {
+        "coordinates": [-81.637596, 29.940403],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "South Side Tennis Complex",
+        "description": "Public Tennis Courts",
+        "courts":12,
+        "surface":"mixed hard and clay",
+        "address":"1539 Hendricks Ave, Jacksonville, FL 32207",
+        "phone":"904-399-1761"
+      },
+      "geometry": {
+        "coordinates": [-81.603735, 29.829985],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Florida Yatch Club",
+        "description": "Private Club",
+        "courts":10,
+        "surface":"clay",
+        "address":"5210 Yacht Club RoadJacksonville, FL 32210",
+        "phone":"904-387-1653"
+      },
+      "geometry": {
+        "coordinates": [-81.622554, 29.882534],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Julington Creek Plantation",
+        "description": "Neighborhood Facility",
+        "courts":10,
+        "surface":"clay",
+        "address":"350 Plantation Club Pkwy Jacksonville, FL 32259",
+        "phone":"904-287-2633"
+      },
+      "geometry": {
+        "coordinates": [-81.622554, 29.882534],
+        "type": "Point"
+      }
+    }
+  ],
+  "type": "FeatureCollection"
+}
