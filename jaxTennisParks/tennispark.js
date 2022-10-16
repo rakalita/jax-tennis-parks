@@ -225,16 +225,41 @@ tennis_parks.features.forEach((park, i) => {
    * Create a Mapbox GL JS `Popup`.
    **/
   function createPopUp(currentFeature) {
+    console.log("---------  in create popup"+currentFeature);
     const popUps = document.getElementsByClassName('mapboxgl-popup');
     if (popUps[0]) {
       popUps[0].remove();
     }
-    const popup = new mapboxgl.Popup({ closeOnClick: true })
+    let response = callWeatherAPI(currentFeature)
+    .then((data) => {
+      let periods = data.properties.periods;
+
+      console.log(periods);
+        const popup = new mapboxgl.Popup({ closeOnClick: true })
       .setLngLat(currentFeature.geometry.coordinates)
       .setHTML(
-        `<h3>${currentFeature.properties.name}</h3><h4>${currentFeature.properties.address}</h4><h4>${currentFeature.properties.gridNumber}</h4>`
+        `
+        <h3>${currentFeature.properties.name}</h3><span>Current conditions:</span>
+        <h4> <img src="${currentFeature.properties.periods[0].icon}"></img>
+        ${currentFeature.properties.periods[0].shortForecast} -
+           ${currentFeature.properties.periods[0].temperature} F</h4>
+        <h4>Wind: ${currentFeature.properties.periods[0].windDirection} ${currentFeature.properties.periods[0].windSpeed}</h4>
+        <h4>23% chance of rain</h4>
+        <span>${periods[0].name}</span>
+        
+        <h4> <img src="${periods[0].icon}" height="66px" width="66px"></img>
+        ${periods[0].detailedForecast} 
+        </h4>
+        <span>${periods[1].name}</span>
+        
+        <h4> <img src="${periods[1].icon}" height="66px" width="66px"></img>
+        ${periods[1].detailedForecast} 
+        </h4>
+        `
       )
       .addTo(map);
+    });
+    
   }
   async function getGridNumber(x,y){
 
@@ -243,33 +268,57 @@ tennis_parks.features.forEach((park, i) => {
     return response.json();
   }
 
-  async function callWeatherAPI(lat,lon){
-    let url = new URL("https://api.openweathermap.org/data/3.0/onecall?");
-    url.searchParams.append("lat",lat);
-    url.searchParams.append("lon",lon);
-    url.searchParams.append("appid","c9a3925634e7e901a11ec462b9199929");
+  async function callWeatherAPI(currentFeature){
+    let ws = "https://api.weather.gov/gridpoints/JAX/"
+      +currentFeature.properties.gridNumber+"/forecast/hourly";
+    let url = new URL(ws);
+    
+    let response = await fetch(url);
+    let data  = await response.json()
+    
+       currentFeature.properties.periods = data.properties.periods.slice(0,5);
+       console.log("sliced array: ");
+       console.log(currentFeature.properties.periods);
+       
+       let fws = "https://api.weather.gov/gridpoints/JAX/"
+       +currentFeature.properties.gridNumber+"/forecast";
+       let forecast_url = new URL(fws);
+       let forecast_response = await fetch(forecast_url);
+       let forecast_data  = await forecast_response.json()  
+    
+
+    return forecast_data;
+  }
+
+  async function callForecastAPI(gridNumber){
+    let ws = "https://api.weather.gov/gridpoints/JAX/"+gridNumber+"/forecast";
+    let url = new URL(ws);
+    
     let response = await fetch(url);
     return response.json();
   }
 
-  async function callGeocoderAPI(address){
+ 
 
-    let key = ['street','city','state'];
-    let url = new URL("https://geocoding.geo.census.gov/geocoder/geographies/address?");
+
+  // async function callGeocoderAPI(address){
+
+  //   let key = ['street','city','state'];
+  //   let url = new URL("https://geocoding.geo.census.gov/geocoder/geographies/address?");
     
-    for (const loc of tennis_parks.features) {
-      let addressData = loc.properties.address.split(',');
-      for (let k in data) {
-        url.searchParams.append(key[k], addressData[k].trim());
-      }
-      url.searchParams.append('benchmark','Public_AR_Census2020');
-      url.searchParams.append('vintage','Census2020_Census2020');
-      url.searchParams.append('layers','10');
-      url.searchParams.append('format','json');
-    // call the geocoder
-      let response = await fetch(url);
-      let data = await response.json();
-    }
+  //   for (const loc of tennis_parks.features) {
+  //     let addressData = loc.properties.address.split(',');
+  //     for (let k in data) {
+  //       url.searchParams.append(key[k], addressData[k].trim());
+  //     }
+  //     url.searchParams.append('benchmark','Public_AR_Census2020');
+  //     url.searchParams.append('vintage','Census2020_Census2020');
+  //     url.searchParams.append('layers','10');
+  //     url.searchParams.append('format','json');
+  //   // call the geocoder
+  //     let response = await fetch(url);
+  //     let data = await response.json();
+  //   }
     
-  }
+  // }
   
