@@ -99,7 +99,7 @@ const tennis_parks = {
 const navImgPath = '<img src="images/gps-30.png"/>';
 
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicmFrYSIsImEiOiJjaXE1Y2Z0ZmswMDVlZnRtMWpxcmwyYXNxIn0.qeT03bdaXEYxv6z0H5aCnQ';
+
 
 tennis_parks.features.forEach((park, i) => {
     park.properties.id = i;
